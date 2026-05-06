@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B Tech Solar Solution | Harness The Sun</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & THEME SETUP
+           ========================================================================== */
+        :root {
+            --color-primary-blue: #1C3F94; 
+            --color-light-blue: #2A64D8; 
+            --color-sun-yellow: #F7A81B; 
+            --color-yellow-hover: #E09612; 
+            --color-leaf-green: #65A30D;
+            --color-white: #FFFFFF;
+            --color-dark: #111111;
+            --color-bg-light: #F4F7F6;
+            
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            
+            --container-width: 1280px;
+            --container-padding: 24px;
+            --header-height: 90px;
+            --topbar-height: 40px; /* Thinner top bar */
+            
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --transition-slow: 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 8px 25px rgba(28, 63, 148, 0.15);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ==========================================================================
+           2. GLOBAL RESETS & PRELOADER
+           ========================================================================== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            color: var(--color-dark);
+            background-color: var(--color-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        a { text-decoration: none; color: inherit; transition: var(--transition-normal); }
+        ul, ol { list-style: none; }
+        img { max-width: 100%; display: block; }
+        .container { width: 100%; max-width: var(--container-width); margin: 0 auto; padding: 0 var(--container-padding); }
+
+        /* Preloader */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--color-primary-blue); display: flex;
+            justify-content: center; align-items: center; z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid rgba(255, 255, 255, 0.2);
+            border-top-color: var(--color-sun-yellow); border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* ==========================================================================
+           3. BUTTONS & UTILITIES
+           ========================================================================== */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 15px 35px; font-family: var(--font-heading); font-weight: 700;
+            font-size: 15px; text-transform: uppercase; letter-spacing: 1px;
+            border-radius: 5px; cursor: pointer; border: none;
+            transition: var(--transition-normal); position: relative; overflow: hidden; z-index: 1;
+        }
+        .btn-yellow { background-color: var(--color-sun-yellow); color: var(--color-white); box-shadow: 0 5px 15px rgba(247, 168, 27, 0.3); }
+        .btn-yellow::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background-color: var(--color-yellow-hover); transition: var(--transition-normal); z-index: -1;
+        }
+        .btn-yellow:hover::before { left: 0; }
+        .btn-yellow:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(247, 168, 27, 0.4); }
+        .btn-outline { background-color: transparent; color: var(--color-white); border: 2px solid var(--color-white); }
+        .btn-outline:hover { background-color: var(--color-white); color: var(--color-primary-blue); }
+
+        /* ==========================================================================
+           4. TOP CONTACT BAR
+           ========================================================================== */
+        .top-bar {
+            background-color: var(--color-primary-blue); color: var(--color-white);
+            height: var(--topbar-height); display: flex; align-items: center;
+            font-size: 13px; font-weight: 500; position: relative; z-index: 1001;
+        }
+        .top-bar-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .top-info { display: flex; gap: 30px; }
+        .top-info li { display: flex; align-items: center; gap: 8px; }
+        .top-info i { color: var(--color-sun-yellow); font-size: 14px; }
+        .top-socials { display: flex; gap: 15px; }
+        .top-socials a { display: flex; align-items: center; justify-content: center; color: var(--color-white); transition: var(--transition-fast); }
+        .top-socials a:hover { color: var(--color-sun-yellow); transform: translateY(-2px); }
+
+        /* ==========================================================================
+           5. HEADER & NAVIGATION
+           ========================================================================== */
+        header {
+            background-color: var(--color-white); position: sticky; top: 0; left: 0;
+            width: 100%; height: var(--header-height); z-index: 1000; transition: box-shadow 0.4s ease;
+        }
+        header.sticky { box-shadow: var(--shadow-md); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        
+        /* Logo Link Container */
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1002;
+}
+
+/* New Image Logo Styling */
+.brand-logo .logo-img {
+    max-height: 70px; /* Navbar ke hisaab se perfect height */
+    width: auto;
+    object-fit: contain; /* Image ko stretch hone se bachaye ga */
+    transition: var(--transition-normal); /* Smooth shrink animation ke liye */
+}
+
+/* Sticky Header par Logo ko thora chota karne ke liye */
+header.sticky .brand-logo .logo-img {
+    max-height: 45px; 
+}
+        
+        .brand-text h1 { font-family: var(--font-heading); font-weight: 900; font-size: 28px; color: var(--color-dark); line-height: 1; letter-spacing: -0.5px; }
+        .brand-text span { color: var(--color-primary-blue); }
+        .brand-text p { font-size: 11px; font-weight: 700; color: var(--color-leaf-green); letter-spacing: 2.5px; text-transform: uppercase; margin-top: 2px; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 40px; height: 100%; }
+        .nav-list { display: flex; align-items: center; gap: 35px; height: 100%; }
+        .nav-item { height: 100%; display: flex; align-items: center; }
+        .nav-link { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--color-primary-blue); text-transform: uppercase; letter-spacing: 0.5px; position: relative; padding: 10px 0; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background-color: var(--color-sun-yellow); transition: var(--transition-normal); border-radius: 2px; }
+        .nav-link:hover, .nav-item.active .nav-link { color: var(--color-sun-yellow); }
+        .nav-link:hover::after, .nav-item.active .nav-link::after { width: 100%; }
+        
+        .nav-quote-btn { padding: 12px 28px; background-color: var(--color-primary-blue); color: var(--color-white); border-radius: 5px; font-family: var(--font-heading); font-weight: 700; font-size: 13px; text-transform: uppercase; transition: var(--transition-normal); }
+        .nav-quote-btn:hover { background-color: var(--color-sun-yellow); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        
+        .menu-toggle { display: none; flex-direction: column; justify-content: space-between; width: 30px; height: 22px; cursor: pointer; z-index: 1003; }
+        .menu-toggle span { display: block; width: 100%; height: 3px; background-color: var(--color-primary-blue); border-radius: 3px; transition: var(--transition-normal); }
+        .menu-toggle.active span:nth-child(1) { transform: translateY(9.5px) rotate(45deg); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: translateY(-9.5px) rotate(-45deg); }
+
+        /* ==========================================================================
+           6. STATIC HERO SECTION
+           ========================================================================== */
+        .hero-static {
+            position: relative; width: 100%; height: calc(100vh - var(--header-height));
+            min-height: 700px; margin-top: 0; display: flex; align-items: center; background-color: var(--color-primary-blue);
+        }
+        .hero-image-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; overflow: hidden; }
+        .hero-bg { width: 100%; height: 100%; object-fit: cover; animation: zoomOutBg 10s ease-out forwards; }
+        @keyframes zoomOutBg { from { transform: scale(1.1); } to { transform: scale(1); } }
+        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(28, 63, 148, 1) 0%, rgba(28, 63, 148, 0.7) 45%, rgba(0,0,0,0) 100%); z-index: 2; }
+        
+        .hero-content {
+            position: relative; z-index: 3; width: 100%; max-width: 850px; color: var(--color-white);
+            margin: 0; padding: 0; text-align: left;
+        }
+        .animate-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s cubic-bezier(0.25, 0.8, 0.25, 1) forwards; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        .delay-1 { animation-delay: 0.2s; } .delay-2 { animation-delay: 0.4s; } .delay-3 { animation-delay: 0.6s; } .delay-4 { animation-delay: 0.8s; }
+        
+        .hero-badge { display: inline-flex; align-items: center; gap: 10px; background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 25px; backdrop-filter: blur(5px); }
+        .hero-badge i { color: var(--color-sun-yellow); }
+        .hero-title { font-family: var(--font-heading); font-size: 70px; font-weight: 900; line-height: 1.05; margin-bottom: 25px; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .hero-title span { color: var(--color-sun-yellow); }
+        .hero-desc { font-size: 18px; font-weight: 400; margin-bottom: 40px; line-height: 1.8; color: rgba(255, 255, 255, 0.9); max-width: 650px; }
+        .hero-btns { display: flex; gap: 20px; }
+
+        /* ==========================================================================
+           7. FEATURES SECTION 
+           ========================================================================== */
+        .features-section { padding: 80px 0; background-color: var(--color-bg-light); position: relative; z-index: 10; }
+        .features-grid { display: flex; background-color: var(--color-white); border-radius: 8px; box-shadow: var(--shadow-lg); width: 100%; overflow: hidden; border-bottom: 5px solid var(--color-sun-yellow); }
+        .feature-card { flex: 1; padding: 40px 30px; display: flex; align-items: center; gap: 20px; border-right: 1px solid rgba(0,0,0,0.06); background-color: var(--color-white); transition: var(--transition-normal); }
+        .feature-card:last-child { border-right: none; }
+        .feature-card:hover { background-color: var(--color-primary-blue); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(28, 63, 148, 0.2); }
+        .feature-icon { width: 65px; height: 65px; min-width: 65px; background-color: rgba(28, 63, 148, 0.05); color: var(--color-primary-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; transition: var(--transition-normal); }
+        .feature-card:hover .feature-icon { background-color: var(--color-sun-yellow); color: var(--color-white); }
+        .feature-text h4 { font-family: var(--font-heading); font-size: 18px; font-weight: 800; color: var(--color-dark); margin-bottom: 5px; transition: var(--transition-fast); }
+        .feature-text p { font-size: 14px; color: var(--text-gray); transition: var(--transition-fast); margin: 0; }
+        .feature-card:hover .feature-text h4, .feature-card:hover .feature-text p { color: var(--color-white); }
+
+        /* ==========================================================================
+           8. RESPONSIVE DESIGN
+           ========================================================================== */
+        @media (max-width: 1200px) { .hero-title { font-size: 58px; } .nav-list { gap: 20px; } }
+
+        @media (max-width: 992px) {
+            /* THIN, SINGLE-LINE MOBILE TOP BAR */
+            .top-bar { height: auto; padding: 6px 0; display: flex; }
+            .top-bar-inner { justify-content: center; }
+            
+            .top-info { 
+                display: flex;
+                flex-direction: row; /* Force horizontal alignment */
+                justify-content: center; 
+                align-items: center;
+                width: 100%; 
+                gap: 20px; /* Space between Phone and Location */
+                flex-wrap: nowrap; /* Prevent stacking */
+            }
+            .top-info li { display: flex; font-size: 11.5px; white-space: nowrap; } 
+            .top-info li i { font-size: 12px; }
+            
+            /* Hide WhatsApp (2nd Item) to save space */
+            .top-info li:nth-child(2) { display: none; }
+            .top-socials { display: none; }
+            
+            .menu-toggle { display: flex; }
+            
+            /* MOBILE MENU */
+            .nav-menu {
+                position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100vh;
+                background-color: var(--color-white); flex-direction: column; justify-content: flex-start;
+                transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow-y: auto;
+                box-shadow: -10px 0 40px rgba(0,0,0,0.15); padding-top: 100px; z-index: 1002;
+            }
+            header.sticky .nav-menu { top: 0; height: 100vh; }
+            .nav-menu.active { right: 0; } 
+            .nav-list { flex-direction: column; height: auto; width: 100%; gap: 0; align-items: flex-start; }
+            .nav-item { width: 100%; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.05); }
+            .nav-link { display: block; padding: 18px 30px; color: var(--color-dark); font-size: 16px; font-weight: 700; transition: var(--transition-fast); }
+            .nav-link::after { display: none; }
+            .nav-link:hover { color: var(--color-primary-blue); background-color: rgba(28, 63, 148, 0.05); padding-left: 35px; }
+            .nav-quote-btn { margin: 30px; width: calc(100% - 60px); text-align: center; background-color: var(--color-sun-yellow); color: var(--color-white); z-index: 10; }
+
+            /* MOBILE HERO */
+            .hero-static { height: auto; min-height: auto; flex-direction: column; display: flex; }
+            .hero-image-wrapper { position: relative; width: 100%; height: 400px; }
+            .hero-bg { animation: none; }
+            .hero-overlay { display: none; }
+            .hero-content { background-color: var(--color-primary-blue); padding: 60px 20px; max-width: 100%; text-align: left; margin: 0; }
+            .hero-badge { margin-bottom: 25px; }
+
+            /* FEATURES MOBILE */
+            .features-section { padding: 50px 20px; }
+            .features-grid { flex-direction: column; }
+            .feature-card { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.05); }
+            .feature-card:last-child { border-bottom: none; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 42px; }
+            .hero-desc { font-size: 16px; margin-bottom: 30px; }
+            .hero-btns { flex-direction: column; width: 100%; align-items: flex-start; }
+            .hero-btns .btn { width: 100%; max-width: 350px; }
+            .nav-menu { max-width: 100%; }
+        }
+
+        @media (max-width: 480px) {
+            /* Force row even on very small screens, slightly smaller font */
+            .top-info { flex-direction: row; gap: 10px; }
+            .top-info li { font-size: 10.5px; }
+            
+            .hero-title { font-size: 36px; }
+            .brand-text h1 { font-size: 22px; }
+            .hero-image-wrapper { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <ul class="top-info">
+                <li><i class="fa-solid fa-phone"></i> +92 300 1234567</li>
+                <li><i class="fa-brands fa-whatsapp"></i> +92 300 1234567</li>
+                <li><i class="fa-solid fa-location-dot"></i> Islamabad, Pakistan</li>
+            </ul>
+            <div class="top-socials">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <header id="header">
+        <div class="container nav-container">
+            
+           <a href="index.html" class="brand-logo">
+    <img src="media/logo.png" alt="B Tech Solar Solution Logo" class="logo-img">
+
+    
+</a>
+
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item active"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">About Us</a></li>
+                    <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
+                    <li class="nav-item"><a href="#portfolio" class="nav-link">Projects</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <a href="#quote" class="nav-quote-btn">Get a Quote</a>
+            </nav>
+
+        </div>
+    </header>
+
+    <section class="hero-static" id="home">
+        
+        <div class="hero-image-wrapper">
+            <img src="media/hero.png" alt="B Tech Solar Installation" class="hero-bg">
+            <div class="hero-overlay"></div> 
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge animate-up delay-1">
+                    <i class="fa-solid fa-bolt"></i> Premier Solar Agency in Pakistan
+                </div>
+                
+                <h2 class="hero-title animate-up delay-2">
+                    HARNESS THE <span>SUN.</span><br>SECURE YOUR FUTURE.
+                </h2>
+                
+                <p class="hero-desc animate-up delay-3">
+                    Empowering homes and businesses across Pakistan with highly efficient, tier-1 solar energy systems. Say goodbye to power outages and heavy electricity bills with B Tech Solar Solution.
+                </p>
+                
+                <div class="hero-btns animate-up delay-4">
+                    <a href="#quote" class="btn btn-yellow">Request Consultation</a>
+                    <a href="#portfolio" class="btn btn-outline">Explore Our Work <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <div class="features-grid animate-up delay-4">
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-certificate"></i></div>
+                    <div class="feature-text">
+                        <h4>Certified Engineers</h4>
+                        <p>Expert installation team</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <div class="feature-text">
+                        <h4>25 Years Warranty</h4>
+                        <p>On premium tier-1 panels</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                    <div class="feature-text">
+                        <h4>24/7 Maintenance</h4>
+                        <p>Lifetime support & service</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const preloader = document.getElementById('preloader');
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    preloader.style.visibility = 'hidden';
+                }, 500);
+            });
+
+            const header = document.getElementById('header');
+            const topBar = document.querySelector('.top-bar');
+            
+            window.addEventListener('scroll', () => {
+                let triggerPoint = topBar ? topBar.offsetHeight : 10;
+                
+                if (window.scrollY > triggerPoint) {
+                    header.classList.add('sticky');
+                } else {
+                    header.classList.remove('sticky');
+                }
+            });
+
+            const menuToggle = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+    <style>
+    /* ==========================================================================
+       9. ABOUT US SECTION
+       ========================================================================== */
+    .about-section {
+        padding: 100px 0;
+        background-color: var(--color-white);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .about-container {
+        display: flex;
+        align-items: center;
+        gap: 60px;
+    }
+
+    /* About Image Side */
+    .about-image-col {
+        flex: 1;
+        position: relative;
+    }
+
+    /* Decorative elements behind the image */
+    .about-image-col::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        width: 100px;
+        height: 100px;
+        background-color: rgba(247, 168, 27, 0.1); /* Faded yellow */
+        border-radius: 10px;
+        z-index: 0;
+    }
+
+    .about-image-col::after {
+        content: '';
+        position: absolute;
+        bottom: -20px;
+        right: -20px;
+        width: 150px;
+        height: 150px;
+        background-color: rgba(28, 63, 148, 0.05); /* Faded blue */
+        border-radius: 10px;
+        z-index: 0;
+    }
+
+    .about-main-img {
+        position: relative;
+        z-index: 1;
+        border-radius: 10px;
+        box-shadow: var(--shadow-lg);
+        width: 100%;
+        height: auto;
+    }
+
+    /* Floating Experience Badge on Image */
+    .experience-badge {
+        position: absolute;
+        bottom: 30px;
+        right: -30px;
+        background-color: var(--color-primary-blue);
+        color: var(--color-white);
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: var(--shadow-md);
+        z-index: 2;
+        text-align: center;
+        border-bottom: 4px solid var(--color-sun-yellow);
+    }
+
+    .exp-years {
+        font-family: var(--font-heading);
+        font-size: 36px;
+        font-weight: 900;
+        color: var(--color-sun-yellow);
+        line-height: 1;
+    }
+
+    .exp-text {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 5px;
+    }
+
+    /* About Text Side */
+    .about-text-col {
+        flex: 1;
+    }
+
+    .section-subtitle {
+        display: inline-block;
+        font-family: var(--font-heading);
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--color-sun-yellow);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+        position: relative;
+        padding-left: 50px;
+    }
+
+    .section-subtitle::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 2px;
+        background-color: var(--color-sun-yellow);
+    }
+
+    .section-title {
+        font-family: var(--font-heading);
+        font-size: 42px;
+        font-weight: 900;
+        color: var(--color-primary-blue);
+        line-height: 1.2;
+        margin-bottom: 25px;
+    }
+
+    .about-text-col p {
+        color: var(--text-gray);
+        font-size: 16px;
+        line-height: 1.8;
+        margin-bottom: 25px;
+    }
+
+    .about-list {
+        margin-bottom: 35px;
+    }
+
+    .about-list li {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: var(--color-dark);
+    }
+
+    .about-list i {
+        color: var(--color-sun-yellow);
+        font-size: 18px;
+    }
+
+    /* ==========================================================================
+       10. SERVICES SECTION
+       ========================================================================== */
+    .services-section {
+        padding: 100px 0;
+        background-color: var(--color-bg-light); /* Off-white for contrast */
+    }
+
+    .section-header-center {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto 60px auto;
+    }
+
+    .section-header-center .section-subtitle {
+        padding-left: 0;
+    }
+
+    .section-header-center .section-subtitle::before,
+    .section-header-center .section-subtitle::after {
+        content: '';
+        display: inline-block;
+        width: 30px;
+        height: 2px;
+        background-color: var(--color-sun-yellow);
+        vertical-align: middle;
+        margin: 0 15px;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    /* Service Card Styling */
+    .service-card {
+        background-color: var(--color-white);
+        border-radius: 8px;
+        padding: 50px 40px;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.03);
+    }
+
+    /* Bottom Border Hover Effect */
+    .service-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background-color: var(--color-light-blue);
+        transform: scaleX(0);
+        transition: var(--transition-normal);
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .service-card:hover::after {
+        transform: scaleX(1);
+    }
+
+    .service-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        background-color: rgba(247, 168, 27, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px auto;
+        transition: var(--transition-normal);
+    }
+
+    .service-icon-wrapper i {
+        font-size: 36px;
+        color: var(--color-sun-yellow);
+        transition: var(--transition-normal);
+    }
+
+    .service-card:hover .service-icon-wrapper {
+        background-color: var(--color-primary-blue);
+    }
+
+    .service-card:hover .service-icon-wrapper i {
+        color: var(--color-white);
+    }
+
+    .service-card h3 {
+        font-family: var(--font-heading);
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--color-primary-blue);
+        margin-bottom: 15px;
+    }
+
+    .service-card p {
+        color: var(--text-gray);
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+
+    .service-link {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: 14px;
+        color: var(--color-dark);
+        text-transform: uppercase;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .service-link i {
+        color: var(--color-sun-yellow);
+        transition: transform 0.3s ease;
+    }
+
+    .service-link:hover {
+        color: var(--color-light-blue);
+    }
+
+    .service-link:hover i {
+        transform: translateX(5px);
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN FOR PART 2
+       ========================================================================== */
+    @media (max-width: 992px) {
+        .about-container { flex-direction: column; gap: 50px; }
+        .about-image-col { width: 90%; margin: 0 auto; }
+        .experience-badge { right: -15px; bottom: -20px; }
+        .section-title { font-size: 36px; }
+        .services-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        .about-section, .services-section { padding: 60px 0; }
+        .section-title { font-size: 32px; }
+        .services-grid { grid-template-columns: 1fr; }
+        .experience-badge { right: 10px; bottom: 10px; padding: 15px; }
+        .exp-years { font-size: 28px; }
+    }
+</style>
+
+<section class="about-section" id="about">
+    <div class="container">
+        <div class="about-container">
+            
+            <div class="about-image-col">
+                <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?q=80&w=2058&auto=format&fit=crop" alt="B Tech Solar Team" class="about-main-img">
+                
+                <div class="experience-badge">
+                    <div class="exp-years">10+</div>
+                    <div class="exp-text">Years Of<br>Experience</div>
+                </div>
+            </div>
+
+            <div class="about-text-col">
+                <span class="section-subtitle">Aapka Trusted Partner</span>
+                <h2 class="section-title">Leading The Transition To Clean Energy.</h2>
+                
+                <p>B Tech Solar Solution aik certified professionals ki team hai jo Pakistan mein renewable energy ko aam aur cost-effective banane ke liye committed hai. Humari technical expertise aur international quality standards humein market mein sab se alag banati hain.</p>
+                <p>Hum sirf panel install nahi karte, balkay aapki energy zaruriyat ko samajh kar ek custom aur long-lasting system design karte hain jo behtareen Return on Investment (ROI) faraham karta hai.</p>
+
+                <ul class="about-list">
+                    <li><i class="fa-solid fa-circle-check"></i> 100% Tier-1 Solar Panels & Inverters</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Customized Design for Max Efficiency</li>
+                    <li><i class="fa-solid fa-circle-check"></i> Complete After-Sales Maintenance Support</li>
+                </ul>
+
+                <a href="#contact" class="btn btn-yellow">Humaray Sath Kaam Karein</a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section class="services-section" id="services">
+    <div class="container">
+        
+        <div class="section-header-center">
+            <span class="section-subtitle">Humari Khidmaat</span>
+            <h2 class="section-title">Premium Solar Solutions</h2>
+            <p>Humari experts ki team har scale ke project ke liye mukammal solutions offer karti hai, taake aap solar energy ko confidently adopt kar saken.</p>
+        </div>
+
+        <div class="services-grid">
+            
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </div>
+                <h3>Residential Solar</h3>
+                <p>Gharon ke liye custom-designed systems. Apne bijli ke bills ko drastically reduce karein aur power outages se nijat payein.</p>
+                <a href="#quote" class="service-link">Get Estimate <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <i class="fa-solid fa-industry"></i>
+                </div>
+                <h3>Commercial Setup</h3>
+                <p>Factories aur plazas ke liye large-scale systems. Apni operational costs ko kam karein aur business ka profit barhayein.</p>
+                <a href="#quote" class="service-link">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon-wrapper">
+                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                </div>
+                <h3>System Maintenance</h3>
+                <p>Professional inspection, cleaning, aur performance optimization taake aapka system saalon tak peak efficiency par chalay.</p>
+                <a href="#contact" class="service-link">Book Service <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<style>
+    /* ==========================================================================
+       11. PORTFOLIO / PROJECTS SECTION
+       ========================================================================== */
+    .portfolio-section {
+        padding: 100px 0;
+        background-color: var(--color-white);
+    }
+
+    .portfolio-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 50px;
+    }
+
+    .portfolio-title-area {
+        max-width: 600px;
+    }
+
+    .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    /* Portfolio Card & Hover Effects */
+    .portfolio-item {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm);
+        height: 350px;
+    }
+
+    .portfolio-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    /* Gradient Overlay */
+    .portfolio-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(28, 63, 148, 0.95) 0%, rgba(28, 63, 148, 0.2) 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 30px;
+        opacity: 0;
+        transition: var(--transition-normal);
+    }
+
+    .portfolio-item:hover img {
+        transform: scale(1.1);
+    }
+
+    .portfolio-item:hover .portfolio-overlay {
+        opacity: 1;
+    }
+
+    .portfolio-category {
+        display: inline-block;
+        background-color: var(--color-sun-yellow);
+        color: var(--color-white);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 5px 12px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        transform: translateY(20px);
+        transition: all 0.4s ease;
+        align-self: flex-start;
+    }
+
+    .portfolio-item h3 {
+        color: var(--color-white);
+        font-family: var(--font-heading);
+        font-size: 24px;
+        font-weight: 800;
+        transform: translateY(20px);
+        transition: all 0.4s ease 0.1s;
+    }
+
+    .portfolio-item:hover .portfolio-category,
+    .portfolio-item:hover h3 {
+        transform: translateY(0);
+    }
+
+    /* ==========================================================================
+       12. TESTIMONIALS SECTION
+       ========================================================================== */
+    .testimonials-section {
+        padding: 100px 0;
+        background-color: var(--color-primary-blue); /* Deep Blue Background for Contrast */
+        position: relative;
+    }
+
+    /* Decorative background pattern */
+    .testimonials-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 40%);
+        pointer-events: none;
+    }
+
+    .testimonials-section .section-title {
+        color: var(--color-white); /* White text on blue background */
+    }
+
+    .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+    }
+
+    .testimonial-card {
+        background-color: var(--color-white);
+        padding: 40px 30px;
+        border-radius: 8px;
+        position: relative;
+        box-shadow: var(--shadow-lg);
+        transition: var(--transition-normal);
+    }
+
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+    }
+
+    /* Large Quote Icon */
+    .quote-icon {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        font-size: 40px;
+        color: rgba(247, 168, 27, 0.15); /* Faded yellow */
+    }
+
+    .stars {
+        color: var(--color-sun-yellow);
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .testimonial-text {
+        font-size: 15px;
+        color: var(--text-gray);
+        font-style: italic;
+        margin-bottom: 30px;
+        line-height: 1.7;
+    }
+
+    .client-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border-top: 1px solid rgba(0,0,0,0.05);
+        padding-top: 20px;
+    }
+
+    .client-avatar {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--color-leaf-green);
+    }
+
+    .client-details h4 {
+        font-family: var(--font-heading);
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--color-primary-blue);
+        margin-bottom: 3px;
+    }
+
+    .client-details p {
+        font-size: 12px;
+        color: var(--text-gray);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN FOR PART 3
+       ========================================================================== */
+    @media (max-width: 992px) {
+        .portfolio-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+        .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+        .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        .portfolio-section, .testimonials-section { padding: 60px 0; }
+        .portfolio-grid { grid-template-columns: 1fr; }
+        .portfolio-item { height: 300px; }
+        
+        .testimonial-grid { grid-template-columns: 1fr; }
+        .testimonial-card { padding: 30px 20px; }
+    }
+</style>
+
+<section class="portfolio-section" id="portfolio">
+    <div class="container">
+        
+        <div class="portfolio-header">
+            <div class="portfolio-title-area">
+                <span class="section-subtitle">Humaray Projects</span>
+                <h2 class="section-title">Recent Installations</h2>
+            </div>
+            <a href="#quote" class="btn btn-outline" style="border-color: var(--color-primary-blue); color: var(--color-primary-blue);">
+                Start Your Project
+            </a>
+        </div>
+
+        <div class="portfolio-grid">
+            
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1592833159155-c62df1b65634?q=80&w=2069&auto=format&fit=crop" alt="10kW Residential Solar Setup">
+                <div class="portfolio-overlay">
+                    <span class="portfolio-category">10kW System</span>
+                    <h3>Modern Villa Setup</h3>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <img src="media/rooftops.jpg" alt="150kW Commercial Solar Installation">
+                <div class="portfolio-overlay">
+                    <span class="portfolio-category">Commercial - 150kW</span>
+                    <h3>Industrial Rooftop</h3>
+                </div>
+            </div>
+
+            <div class="portfolio-item">
+                <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=2072&auto=format&fit=crop" alt="50kW Agriculture Solar">
+                <div class="portfolio-overlay">
+                    <span class="portfolio-category">Agriculture - 50kW</span>
+                    <h3>Farm Irrigation Plant</h3>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="testimonials-section">
+    <div class="container">
+        
+        <div class="section-header-center">
+            <span class="section-subtitle" style="color: var(--color-white);">Client Feedback</span>
+            <h2 class="section-title">Log Humaray Baray Mein Kya Kehte Hain</h2>
+        </div>
+
+        <div class="testimonial-grid">
+            
+            <div class="testimonial-card">
+                <i class="fa-solid fa-quote-right quote-icon"></i>
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"B Tech ki team ne humari factory ka 150kW ka project waqt par aur behtareen mayaar ke sath mukammal kiya. Ab humara electricity bill na hone ke barabar hai."</p>
+                <div class="client-info">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop" alt="Ahmed Raza" class="client-avatar">
+                    <div class="client-details">
+                        <h4>Ahmed Raza</h4>
+                        <p>Factory Owner</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <i class="fa-solid fa-quote-right quote-icon"></i>
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <p class="testimonial-text">"Installation process bohat smooth tha. Team kaafi professional thi aur unho ne ghar ki wiring ko bina kisi nuqsan ke effectively solar par shift kar diya."</p>
+                <div class="client-info">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=200&auto=format&fit=crop" alt="Sara Khan" class="client-avatar">
+                    <div class="client-details">
+                        <h4>Sara Khan</h4>
+                        <p>Homeowner</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <i class="fa-solid fa-quote-right quote-icon"></i>
+                <div class="stars">
+                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <p class="testimonial-text">"Rates market ke hisaab se bohat munasib the aur inki after-sales service bhi bohat zabardast hai. Main inhein zaroor recommend karunga."</p>
+                <div class="client-info">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=200&auto=format&fit=crop" alt="Usman Tariq" class="client-avatar">
+                    <div class="client-details">
+                        <h4>Usman Tariq</h4>
+                        <p>Business Manager</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+</body>
+</html>
