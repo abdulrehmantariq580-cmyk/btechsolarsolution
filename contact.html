@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B Tech Solar Solution | Page Title Here</title>
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & GLOBAL THEME SETUP (Do Not Change)
+           ========================================================================== */
+        :root {
+            --color-primary-blue: #1C3F94; 
+            --color-light-blue: #2A64D8; 
+            --color-sun-yellow: #F7A81B; 
+            --color-yellow-hover: #E09612; 
+            --color-leaf-green: #65A30D;
+            --color-white: #FFFFFF;
+            --color-dark: #111111;
+            --color-bg-light: #F4F7F6;
+            
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            
+            --container-width: 1280px;
+            --container-padding: 24px;
+            --header-height: 90px;
+            --topbar-height: 40px; 
+            
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 8px 25px rgba(28, 63, 148, 0.15);
+            --shadow-lg: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); color: var(--color-dark); background-color: var(--color-white); line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        a { text-decoration: none; color: inherit; transition: var(--transition-normal); }
+        ul, ol { list-style: none; }
+        img { max-width: 100%; display: block; }
+        .container { width: 100%; max-width: var(--container-width); margin: 0 auto; padding: 0 var(--container-padding); }
+
+        /* BUTTONS */
+        .btn { display: inline-flex; align-items: center; justify-content: center; padding: 15px 35px; font-family: var(--font-heading); font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; border-radius: 5px; cursor: pointer; border: none; transition: var(--transition-normal); position: relative; overflow: hidden; z-index: 1; }
+        .btn-yellow { background-color: var(--color-sun-yellow); color: var(--color-white); box-shadow: 0 5px 15px rgba(247, 168, 27, 0.3); }
+        .btn-yellow::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background-color: var(--color-yellow-hover); transition: var(--transition-normal); z-index: -1; }
+        .btn-yellow:hover::before { left: 0; }
+        .btn-yellow:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(247, 168, 27, 0.4); }
+        .btn-outline { background-color: transparent; color: var(--color-white); border: 2px solid var(--color-white); }
+        .btn-outline:hover { background-color: var(--color-white); color: var(--color-primary-blue); }
+
+        /* ==========================================================================
+           2. HEADER & TOP BAR STYLES
+           ========================================================================== */
+        .top-bar { background-color: var(--color-primary-blue); color: var(--color-white); height: var(--topbar-height); display: flex; align-items: center; font-size: 13px; font-weight: 500; position: relative; z-index: 1001; }
+        .top-bar-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .top-info { display: flex; gap: 30px; }
+        .top-info li { display: flex; align-items: center; gap: 8px; }
+        .top-info i { color: var(--color-sun-yellow); font-size: 14px; }
+        .top-socials { display: flex; gap: 15px; }
+        .top-socials a { display: flex; align-items: center; justify-content: center; color: var(--color-white); transition: var(--transition-fast); }
+        .top-socials a:hover { color: var(--color-sun-yellow); transform: translateY(-2px); }
+
+        header { background-color: var(--color-white); position: sticky; top: 0; left: 0; width: 100%; height: var(--header-height); z-index: 1000; transition: box-shadow 0.4s ease; }
+        header.sticky { box-shadow: var(--shadow-md); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
+        .brand-logo { display: flex; align-items: center; gap: 12px; z-index: 1002; }
+        .brand-logo .logo-img { max-height: 70px; width: auto; object-fit: contain; transition: var(--transition-normal); }
+        header.sticky .brand-logo .logo-img { max-height: 45px; }
+        
+        .nav-menu { display: flex; align-items: center; gap: 40px; height: 100%; }
+        .nav-list { display: flex; align-items: center; gap: 35px; height: 100%; }
+        .nav-item { height: 100%; display: flex; align-items: center; }
+        .nav-link { font-family: var(--font-heading); font-weight: 700; font-size: 14px; color: var(--color-primary-blue); text-transform: uppercase; letter-spacing: 0.5px; position: relative; padding: 10px 0; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background-color: var(--color-sun-yellow); transition: var(--transition-normal); border-radius: 2px; }
+        .nav-link:hover, .nav-item.active .nav-link { color: var(--color-sun-yellow); }
+        .nav-link:hover::after, .nav-item.active .nav-link::after { width: 100%; }
+        .nav-quote-btn { padding: 12px 28px; background-color: var(--color-primary-blue); color: var(--color-white); border-radius: 5px; font-family: var(--font-heading); font-weight: 700; font-size: 13px; text-transform: uppercase; transition: var(--transition-normal); }
+        .nav-quote-btn:hover { background-color: var(--color-sun-yellow); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .nav-call-link { transition: var(--transition-fast); white-space: nowrap; }
+        .nav-call-link:hover { color: var(--color-sun-yellow) !important; }
+
+        .menu-toggle { display: none; flex-direction: column; justify-content: space-between; width: 30px; height: 22px; cursor: pointer; z-index: 1003; }
+        .menu-toggle span { display: block; width: 100%; height: 3px; background-color: var(--color-primary-blue); border-radius: 3px; transition: var(--transition-normal); }
+        .menu-toggle.active span:nth-child(1) { transform: translateY(9.5px) rotate(45deg); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: translateY(-9.5px) rotate(-45deg); }
+
+        /* ==========================================================================
+           3. FOOTER STYLES
+           ========================================================================== */
+        .site-footer { background-color: var(--color-primary-blue); color: var(--color-white); padding-top: 80px; position: relative; overflow: hidden; }
+        .site-footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background-color: var(--color-sun-yellow); }
+        .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 40px; padding-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .footer-brand .brand-logo-text { font-family: var(--font-heading); font-size: 28px; font-weight: 900; color: var(--color-white); line-height: 1; margin-bottom: 20px; display: block; }
+        .footer-brand .brand-logo-text span { color: var(--color-sun-yellow); }
+        .footer-brand p { color: rgba(255,255,255,0.8); font-size: 14px; line-height: 1.8; margin-bottom: 25px; padding-right: 20px; }
+        .footer-socials { display: flex; gap: 15px; }
+        .footer-socials a { width: 40px; height: 40px; background-color: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-white); transition: 0.3s; }
+        .footer-socials a:hover { background-color: var(--color-sun-yellow); transform: translateY(-3px); }
+        .footer-title { font-family: var(--font-heading); font-size: 18px; font-weight: 700; margin-bottom: 25px; position: relative; padding-bottom: 10px; color: var(--color-white); }
+        .footer-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 30px; height: 2px; background-color: var(--color-sun-yellow); }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: rgba(255,255,255,0.8); font-size: 14px; transition: 0.3s; display: flex; align-items: center; gap: 8px; }
+        .footer-links a::before { content: '\f105'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 10px; color: var(--color-sun-yellow); opacity: 0; transform: translateX(-10px); transition: 0.3s; }
+        .footer-links a:hover { color: var(--color-white); }
+        .footer-links a:hover::before { opacity: 1; transform: translateX(0); }
+        .service-areas { margin-top: 20px; }
+        .area-tag { display: inline-block; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); padding: 5px 12px; border-radius: 4px; font-size: 12px; color: rgba(255, 255, 255, 0.9); margin: 0 5px 8px 0; }
+        .footer-bottom { padding: 25px 0; background-color: rgba(0, 0, 0, 0.2); }
+        .footer-bottom-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.7); }
+
+        /* ==========================================================================
+           4. FLOATING SOCIAL ICONS STYLES
+           ========================================================================== */
+        .social-sidebar { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 9999; display: flex; flex-direction: column; align-items: center; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+        .social-toggle-btn { width: 45px; height: 45px; background-color: var(--color-sun-yellow); color: var(--color-white); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.3s; z-index: 10; }
+        .social-toggle-btn:hover { background-color: var(--color-primary-blue); transform: scale(1.1); }
+        .social-links-wrapper { display: flex; flex-direction: column; gap: 12px; transition: all 0.5s ease; opacity: 1; visibility: visible; transform: scale(1); }
+        .social-link { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-white); font-size: 20px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        .social-link.fb { background-color: #1877F2; }
+        .social-link.ig { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+        .social-link.tt { background-color: #000000; }
+        .social-link.yt { background-color: #FF0000; }
+        .social-link.wa { background-color: #25D366; }
+        .social-link:hover { transform: translateX(-8px); box-shadow: 0 6px 15px rgba(0,0,0,0.25); filter: brightness(1.1); }
+        .social-sidebar.collapsed .social-links-wrapper { opacity: 0; visibility: hidden; transform: translateY(-20px) scale(0); pointer-events: none; }
+
+        /* ==========================================================================
+           5. GLOBAL RESPONSIVE MEDIA QUERIES
+           ========================================================================== */
+        @media (max-width: 1200px) { .nav-list { gap: 20px; } }
+        @media (max-width: 992px) {
+            .top-bar { height: auto; padding: 6px 0; display: flex; }
+            .top-bar-inner { justify-content: center; }
+            .top-info { display: flex; flex-direction: row; justify-content: center; align-items: center; width: 100%; gap: 20px; flex-wrap: nowrap; }
+            .top-info li { display: flex; font-size: 11.5px; white-space: nowrap; } 
+            .top-info li:nth-child(2) { display: none; }
+            .top-socials { display: none; }
+            
+            .menu-toggle { display: flex; }
+            .nav-menu { position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100vh; background-color: var(--color-white); flex-direction: column; justify-content: flex-start; transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); overflow-y: auto; box-shadow: -10px 0 40px rgba(0,0,0,0.15); padding-top: 100px; z-index: 1002; }
+            header.sticky .nav-menu { top: 0; height: 100vh; }
+            .nav-menu.active { right: 0; } 
+            .nav-list { flex-direction: column; height: auto; width: 100%; gap: 0; align-items: flex-start; }
+            .nav-item { width: 100%; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.05); }
+            .nav-link { display: block; padding: 18px 30px; color: var(--color-dark); font-size: 16px; font-weight: 700; transition: var(--transition-fast); }
+            .nav-link::after { display: none; }
+            .nav-link:hover { color: var(--color-primary-blue); background-color: rgba(28, 63, 148, 0.05); padding-left: 35px; }
+            .nav-quote-btn { margin: 30px; width: calc(100% - 60px); text-align: center; background-color: var(--color-sun-yellow); color: var(--color-white); z-index: 10; }
+            
+            .footer-top { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom-inner { flex-direction: column; text-align: center; justify-content: center; }
+            .social-sidebar { right: 10px; }
+            .social-link, .social-toggle-btn { width: 40px; height: 40px; font-size: 18px; }
+        }
+        @media (max-width: 480px) {
+            .top-info { flex-direction: row; gap: 10px; }
+            .top-info li { font-size: 10.5px; }
+            .brand-logo .logo-img { max-height: 50px; }
+        }
+        
+        /* Your Page Specific CSS will go below here */
+    </style>
+</head>
+<body>
+
+    <!-- ========================= TOP BAR ========================= -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <ul class="top-info">
+                <li><i class="fa-solid fa-phone"></i>+92 322 2860434</li>
+                <li><i class="fa-brands fa-whatsapp"></i>+92 340-5010197</li>
+                <li><i class="fa-solid fa-location-dot"></i> Islamabad, Rawalpindi, Gujrat, Pakistan</li>
+            </ul>
+            <div class="top-socials">
+                <a href="https://www.facebook.com/share/1CamYNrabn/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/btechsolar?igsh=dnBwdXJlNWpzZWdt" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/923405010197" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================= HEADER / NAVBAR ========================= -->
+    <header id="header">
+        <div class="container nav-container">
+            <a href="index.html" class="brand-logo">
+                <img src="media/logo.webp" alt="B Tech Solar Solution Logo" class="logo-img">
+            </a>
+
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <nav class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <!-- Update 'active' class on specific page -->
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="about.html" class="nav-link">About Us</a></li>
+                    <li class="nav-item"><a href="services.html" class="nav-link">Services</a></li>
+                    <li class="nav-item"><a href="plans.html" class="nav-link">Our Plans</a></li>
+                    <li class="nav-item"><a href="projects.html" class="nav-link">Projects</a></li>
+                    <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions" style="display: flex; align-items: center; gap: 20px; margin-left: 30px;">
+                    <a href="tel:+923222860434" class="nav-call-link" style="color: var(--color-primary-blue); font-weight: 800; font-family: var(--font-heading); font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa-solid fa-phone-volume" style="color: var(--color-sun-yellow); font-size: 18px;"></i> 
+                        <span class="call-text">Direct Call</span>
+                    </a>
+                    <a href="get_a_quote.html" class="nav-quote-btn">Send Message</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const preloader = document.getElementById('preloader');
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    preloader.style.opacity = '0';
+                    preloader.style.visibility = 'hidden';
+                }, 500);
+            });
+
+            const header = document.getElementById('header');
+            const topBar = document.querySelector('.top-bar');
+            
+            window.addEventListener('scroll', () => {
+                let triggerPoint = topBar ? topBar.offsetHeight : 10;
+                
+                if (window.scrollY > triggerPoint) {
+                    header.classList.add('sticky');
+                } else {
+                    header.classList.remove('sticky');
+                }
+            });
+
+            const menuToggle = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+
+    <!-- ================================================================== -->
+    <!-- MAIN CONTENT AREA START -->
+    <!-- ================================================================== -->
+    
+    <main>
+        <!-- Paste page specific sections here (e.g., About Section, Services Grid, etc.) -->
+        
+    </main>
+
+    <!-- ================================================================== -->
+    <!-- MAIN CONTENT AREA END -->
+    <!-- ================================================================== -->
+
+    <!-- ========================= FOOTER ========================= -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <a href="index.html" class="brand-logo-text">B TECH <span>SOLAR</span></a>
+                    <p>Harnessing the sun's power to secure Pakistan's energy future. Humari tier-1 solar technology aur expert installations aapko behtareen bachat aur sakoon faraham karti hain.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.facebook.com/share/1CamYNrabn/" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/btechsolar?igsh=dnBwdXJlNWpzZWdt" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://wa.me/923405010197" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="footer-title">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Company</a></li>
+                        <li><a href="services.html">Our Services</a></li>
+                        <li><a href="plans.html">Solar Packages</a></li>
+                        <li><a href="projects.html">Our Portfolio</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Our Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="services.html">Hybrid Solar Systems</a></li>
+                        <li><a href="services.html">On-Grid Installations</a></li>
+                        <li><a href="services.html">Off-Grid Solutions</a></li>
+                        <li><a href="services.html">Lithium Batteries</a></li>
+                        <li><a href="services.html">Structure Installation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="footer-title">Service Areas</h4>
+                    <p style="color: rgba(255,255,255,0.8); font-size: 13px;">Humari services in ilaqon mein dastiyab hain:</p>
+                    <div class="service-areas">
+                        <span class="area-tag">Islamabad</span>
+                        <span class="area-tag">Rawalpindi</span>
+                        <span class="area-tag">Gujrat</span>
+                        <span class="area-tag">+ Many more</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container footer-bottom-inner">
+                <p>&copy; 2026 B Tech Solar Solution. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================= FLOATING SOCIALS ========================= -->
+    <div class="social-sidebar" id="socialSidebar">
+        <button class="social-toggle-btn" id="socialToggle" title="Hide Socials">
+            <i class="fa-solid fa-minus" id="toggleIcon"></i>
+        </button>
+        <div class="social-links-wrapper">
+            <a href="https://www.facebook.com/share/1CamYNrabn/" target="_blank" class="social-link fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/btechsolar?igsh=dnBwdXJlNWpzZWdt" target="_blank" class="social-link ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@muhammad.bilal7129?_r=1&_t=ZS-96AIuXPRxdI" target="_blank" class="social-link tt" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://youtube.com/@solarsolutionsislamabad?si=GSNFbRG6wAlBbQkz" target="_blank" class="social-link yt" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://wa.me/923405010197" target="_blank" class="social-link wa" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+    </div>
+
+    <!-- ========================= SCRIPTS ========================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Header Sticky Logic
+            const header = document.getElementById('header');
+            const topBar = document.querySelector('.top-bar');
+            window.addEventListener('scroll', () => {
+                let triggerPoint = topBar ? topBar.offsetHeight : 10;
+                if (window.scrollY > triggerPoint) {
+                    header.classList.add('sticky');
+                } else {
+                    header.classList.remove('sticky');
+                }
+            });
+
+            // Mobile Menu Logic
+            const menuToggle = document.getElementById('mobile-menu');
+            const navMenu = document.getElementById('nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            if(menuToggle && navMenu) {
+                menuToggle.addEventListener('click', () => {
+                    menuToggle.classList.toggle('active');
+                    navMenu.classList.toggle('active');
+                });
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        menuToggle.classList.remove('active');
+                        navMenu.classList.remove('active');
+                    });
+                });
+            }
+
+            // Floating Social Logic
+            const socialSidebar = document.getElementById('socialSidebar');
+            const socialToggle = document.getElementById('socialToggle');
+            const toggleIcon = document.getElementById('toggleIcon');
+            if(socialToggle && socialSidebar) {
+                socialToggle.addEventListener('click', () => {
+                    socialSidebar.classList.toggle('collapsed');
+                    if (socialSidebar.classList.contains('collapsed')) {
+                        toggleIcon.classList.remove('fa-minus');
+                        toggleIcon.classList.add('fa-plus');
+                        socialToggle.setAttribute('title', 'Show Socials');
+                    } else {
+                        toggleIcon.classList.remove('fa-plus');
+                        toggleIcon.classList.add('fa-minus');
+                        socialToggle.setAttribute('title', 'Hide Socials');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
