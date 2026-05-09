@@ -274,7 +274,723 @@
     <!-- ================================================================== -->
     
     <main>
-        <!-- Paste page specific sections here (e.g., About Section, Services Grid, etc.) -->
+    <!-- ==============================================================================
+     SERVICES PAGE - PART 1: Hero Banner, Residential & Commercial Services
+     ============================================================================== -->
+
+<style>
+    /* ==========================================================================
+       1. SERVICES HERO SECTION
+       ========================================================================== */
+    .services-hero {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        background-color: var(--color-primary-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .srv-hero-bg {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0.25;
+        z-index: 1;
+        animation: subtleZoom 20s infinite alternate linear;
+    }
+
+    @keyframes subtleZoom {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.15); }
+    }
+
+    .srv-hero-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(to bottom, rgba(28, 63, 148, 0.8) 0%, rgba(17, 17, 17, 0.6) 100%);
+        z-index: 2;
+    }
+
+    .srv-hero-content {
+        position: relative;
+        z-index: 3;
+        color: var(--color-white);
+        max-width: 900px;
+        padding: 0 20px;
+    }
+
+    .srv-hero-badge {
+        display: inline-block;
+        background-color: rgba(247, 168, 27, 0.2);
+        border: 1px solid var(--color-sun-yellow);
+        color: var(--color-sun-yellow);
+        padding: 8px 20px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        animation: fadeInDown 0.8s ease forwards;
+    }
+
+    .srv-hero-title {
+        font-family: var(--font-heading);
+        font-size: 60px;
+        font-weight: 900;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        line-height: 1.1;
+        animation: fadeInUp 0.8s ease forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+    }
+
+    .srv-hero-title span {
+        color: var(--color-sun-yellow);
+        position: relative;
+    }
+
+    .breadcrumb-nav {
+        display: flex; align-items: center; justify-content: center;
+        gap: 15px; font-size: 15px; font-weight: 600;
+        animation: fadeInUp 0.8s ease forwards;
+        animation-delay: 0.4s; opacity: 0; margin-top: 25px;
+    }
+
+    .breadcrumb-nav a { color: var(--color-white); display: flex; align-items: center; gap: 8px; }
+    .breadcrumb-nav a:hover { color: var(--color-sun-yellow); }
+    .breadcrumb-nav i { font-size: 12px; color: rgba(255, 255, 255, 0.5); }
+    .breadcrumb-nav .current-page { color: var(--color-sun-yellow); }
+
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ==========================================================================
+       2. DETAILED SERVICES LAYOUT
+       ========================================================================== */
+    .detailed-service-section {
+        padding: 120px 0;
+        background-color: var(--color-white);
+        overflow: hidden;
+    }
+
+    /* Alternate Background for Even Services */
+    .detailed-service-section.alt-bg {
+        background-color: var(--color-bg-light);
+    }
+
+    .ds-container {
+        display: flex;
+        align-items: center;
+        gap: 80px;
+    }
+
+    /* Reverse Layout for alternating design */
+    .ds-container.reverse {
+        flex-direction: row-reverse;
+    }
+
+    /* Image Block */
+    .ds-image-block {
+        flex: 1;
+        position: relative;
+    }
+
+    .ds-main-img {
+        width: 100%;
+        border-radius: 20px;
+        box-shadow: var(--shadow-lg);
+        position: relative;
+        z-index: 2;
+    }
+
+    .ds-image-block::before {
+        content: ''; position: absolute; top: -30px; left: -30px;
+        width: 100%; height: 100%;
+        background-color: var(--color-primary-blue);
+        border-radius: 20px; z-index: 1; opacity: 0.05;
+    }
+
+    .ds-container.reverse .ds-image-block::before {
+        left: auto; right: -30px;
+        background-color: var(--color-sun-yellow);
+    }
+
+    /* Tech Spec Floating Box */
+    .tech-spec-box {
+        position: absolute; bottom: -30px; right: -30px;
+        background-color: var(--color-primary-blue);
+        color: var(--color-white); padding: 30px;
+        border-radius: 15px; box-shadow: 0 15px 35px rgba(28, 63, 148, 0.3);
+        z-index: 3; width: 260px;
+        border-bottom: 5px solid var(--color-sun-yellow);
+    }
+
+    .ds-container.reverse .tech-spec-box {
+        right: auto; left: -30px;
+    }
+
+    .tech-spec-box h5 {
+        font-family: var(--font-heading); font-size: 18px; font-weight: 800;
+        margin-bottom: 15px; color: var(--color-sun-yellow);
+        border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;
+    }
+
+    .tech-list li {
+        display: flex; align-items: flex-start; gap: 10px;
+        font-size: 13.5px; margin-bottom: 12px; color: rgba(255,255,255,0.9);
+    }
+
+    .tech-list i { color: var(--color-sun-yellow); font-size: 14px; margin-top: 3px; }
+
+    /* Content Block */
+    .ds-content-block { flex: 1.2; }
+    
+    .ds-count {
+        font-family: var(--font-heading); font-size: 80px; font-weight: 900;
+        color: rgba(28, 63, 148, 0.08); line-height: 0.8;
+        margin-bottom: -20px; display: block;
+    }
+
+    .ds-tag {
+        display: inline-block; padding: 6px 15px;
+        background-color: rgba(247, 168, 27, 0.15);
+        color: var(--color-sun-yellow); font-weight: 700; font-size: 13px;
+        border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px;
+    }
+
+    .ds-content-block h2 {
+        font-family: var(--font-heading); font-size: 38px; font-weight: 900;
+        color: var(--color-primary-blue); line-height: 1.2; margin-bottom: 25px;
+    }
+
+    .ds-content-block > p {
+        font-size: 16px; color: var(--text-gray); line-height: 1.8; margin-bottom: 30px;
+    }
+
+    /* Feature Grid */
+    .ds-feature-grid {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 40px;
+    }
+
+    .ds-feature-item { display: flex; gap: 15px; }
+    .ds-feature-icon {
+        width: 50px; height: 50px; border-radius: 50%;
+        background-color: rgba(247, 168, 27, 0.1); color: var(--color-sun-yellow);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 20px; flex-shrink: 0;
+    }
+
+    .ds-feature-text h4 {
+        font-family: var(--font-heading); font-size: 18px; font-weight: 800;
+        color: var(--color-dark); margin-bottom: 8px;
+    }
+
+    .ds-feature-text p { font-size: 14px; color: var(--text-gray); line-height: 1.6; margin: 0; }
+
+    /* Action Buttons */
+    .ds-actions {
+        display: flex; gap: 20px; align-items: center;
+        padding-top: 20px; border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) { .ds-container { gap: 50px; } }
+    @media (max-width: 992px) {
+        .ds-container, .ds-container.reverse { flex-direction: column; }
+        .ds-image-block { margin-bottom: 40px; width: 90%; }
+        .tech-spec-box { bottom: -20px; right: -10px; left: auto !important; width: 220px; padding: 20px; }
+    }
+    @media (max-width: 768px) {
+        .srv-hero-title { font-size: 42px; }
+        .ds-content-block h2 { font-size: 32px; }
+        .ds-feature-grid { grid-template-columns: 1fr; gap: 20px; }
+        .ds-actions { flex-direction: column; align-items: stretch; }
+        .ds-actions .btn { width: 100%; text-align: center; }
+        .tech-spec-box { display: none; }
+    }
+</style>
+
+<!-- ========================= HERO SECTION ========================= -->
+<section class="services-hero">
+    <img src="media/service_hero.webp" alt="B Tech Solar Services Overview" class="srv-hero-bg">
+    <div class="srv-hero-overlay"></div>
+    
+    <div class="srv-hero-content">
+        <div class="srv-hero-badge">What We Do</div>
+        <h1 class="srv-hero-title">Our Solar <span>Services</span></h1>
+        
+        <div class="breadcrumb-nav">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span class="current-page">Services</span>
+        </div>
+    </div>
+</section>
+
+<!-- ========================= SERVICE 1: RESIDENTIAL SOLAR ========================= -->
+<section class="detailed-service-section" id="service-1">
+    <div class="container">
+        <div class="ds-container">
+            
+            <!-- Image Block (Left) -->
+            <div class="ds-image-block">
+                <img src="media/service1.webp" alt="Residential Solar Installation Pakistan" class="ds-main-img">
+            </div>
+
+            <!-- Content Block (Right) -->
+            <div class="ds-content-block">
+                <span class="ds-count">01</span>
+                <span class="ds-tag">Home Solutions</span>
+                <h2>Residential Solar Systems</h2>
+                <p>Gharon ke liye hum Hybrid aur On-Grid solar systems design karte hain. Pakistan mein barhte hue electricity tariffs aur load-shedding ko dekhte hue, residential solar ab ek luxury nahi balkay zaroorat ban chuka hai. Hum aapke ghar ke load ke mutabiq custom design banate hain taake aapka AC, Fridge, aur baqi appliances baghair kisi tension ke chalte rahein.</p>
+                
+                <div class="ds-feature-grid">
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-house-chimney-window"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Zero Load Shedding</h4>
+                            <p>Hybrid inverter aur battery bank ki wajah se grid off hone par bhi ghar mein roshni rehti hai.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Bill Reduction</h4>
+                            <p>On-Grid Net Metering ke zariye aap apna bijli ka mahana bill 100% tak kam kar sakte hain.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-mobile-screen"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Smart Monitoring</h4>
+                            <p>Wi-Fi dongle aur mobile app se apni daily bijli ki production aur consumption live check karein.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Safe Installation</h4>
+                            <p>Ghar ke bacchon aur appliances ki safety ke liye proper earthing aur DC breakers ka istemal.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ds-actions">
+                    <a href="get_a_quote.html" class="btn btn-yellow">
+                        Get a Quote
+                    </a>
+                    <a href="plans.html" class="btn btn-outline" style="border-color: var(--color-primary-blue); color: var(--color-primary-blue);">
+                        Explore Packages
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ========================= SERVICE 2: COMMERCIAL SOLAR ========================= -->
+<section class="detailed-service-section alt-bg" id="service-2">
+    <div class="container">
+        <!-- Added 'reverse' class to flip the layout (Image Right, Content Left) -->
+        <div class="ds-container reverse">
+            
+            <!-- Image Block (Right) -->
+            <div class="ds-image-block">
+                <img src="media/service2.webp" alt="Commercial Industrial Solar Panels" class="ds-main-img">
+                
+            </div>
+
+            <!-- Content Block (Left) -->
+            <div class="ds-content-block">
+                <span class="ds-count">02</span>
+                <span class="ds-tag">Business Solutions</span>
+                <h2>Commercial & Industrial Solar</h2>
+                <p>Factories, plazas, hospitals aur schools ke liye heavy-duty solar setups. Commercial level par electricity ki cost business ke profit margin ko direct hit karti hai. Humare industrial-grade On-Grid aur Hybrid setups aapki operational costs ko drastically kam karte hain, aur aapki investment 2.5 se 3 saal mein recover ho jati hai.</p>
+                
+                <div class="ds-feature-grid">
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-chart-line"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Maximum ROI</h4>
+                            <p>Fastest payback period aur din ke waqt business hours mein free energy ka fayda.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-building-shield"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Heavy Structure</h4>
+                            <p>Industrial chhaton ke liye specially designed L3 structures jo aandhiyon ko bardasht karte hain.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Tax Benefits</h4>
+                            <p>Green energy par shift hone se commercial sectors ke liye tax incentives aur depreciation benefits.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-gears"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>3-Phase Systems</h4>
+                            <p>Heavy machinery aur industrial load ko smoothly run karne ke liye advanced 3-phase inverters.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ds-actions">
+                    <a href="get_a_quote.html" class="btn btn-yellow">
+                        Get a Quote
+                    </a>
+                    <a href="plans.html" class="btn btn-outline" style="border-color: var(--color-primary-blue); color: var(--color-primary-blue);">
+                        Explore Packages
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- ==============================================================================
+     SERVICES PAGE - PART 2: Battery Storage & Structure Fabrication
+     ============================================================================== -->
+
+<!-- ========================= SERVICE 3: ADVANCED BATTERY STORAGE ========================= -->
+<section class="detailed-service-section" id="service-3">
+    <div class="container">
+        <!-- Normal Layout: Image Left, Content Right -->
+        <div class="ds-container">
+            
+            <!-- Image Block (Left) -->
+            <div class="ds-image-block">
+                <img src="media/service3.webp" alt="Lithium Ion Battery Storage" class="ds-main-img">
+                
+            </div>
+
+            <!-- Content Block (Right) -->
+            <div class="ds-content-block">
+                <span class="ds-count">03</span>
+                <span class="ds-tag">Power Backup</span>
+                <h2>Advanced Battery Storage Solutions</h2>
+                <p>Purani acid wali tubular batteries ka daur ab khatam ho chuka hai. B Tech Solar aapke liye laya hai latest Lithium-Ion (LiFePO4) battery systems. Chahe aapne naya hybrid system lagwana ho ya apne purane solar system ko upgrade karna ho, humari batteries aapko reliable aur long-lasting backup faraham karti hain. Inki life aam batteries ke muqablay mein 3 se 4 guna zyada hoti hai.</p>
+                
+                <div class="ds-feature-grid">
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-shield-cat"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>100% Maintenance Free</h4>
+                            <p>Paani dalne ya tezaab check karne ki koi zaroorat nahi. Ek dafa lagayein aur bhool jayein.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Fast Charging</h4>
+                            <p>Lithium batteries 2 ghante se bhi kam waqt mein mukammal charge ho jati hain, jo short light-on time ke liye best hai.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Smart BMS Protection</h4>
+                            <p>Battery Management System (BMS) over-charging aur over-heating se mukammal tahafuz deta hai.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Longer Lifespan</h4>
+                            <p>10 se 12 saal ki expected life aur deep discharge capability taake aapko maximum backup mil sakay.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ds-actions">
+                    <a href="get_a_quote.html" class="btn btn-yellow">
+                        Get a Quote
+                    </a>
+                    <a href="plans.html" class="btn btn-outline" style="border-color: var(--color-primary-blue); color: var(--color-primary-blue);">
+                        Explore Packages
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ========================= SERVICE 4: CUSTOM STRUCTURE FABRICATION ========================= -->
+<section class="detailed-service-section alt-bg" id="service-4">
+    <div class="container">
+        <!-- Reverse Layout: Image Right, Content Left -->
+        <div class="ds-container reverse">
+            
+            <!-- Image Block (Right) -->
+            <div class="ds-image-block">
+                <!-- Using a relevant image for structure/fabrication -->
+                <img src="media/service4.webp" alt="Elevated Solar Structure Fabrication" class="ds-main-img">
+                
+            </div>
+
+            <!-- Content Block (Left) -->
+            <div class="ds-content-block">
+                <span class="ds-count">04</span>
+                <span class="ds-tag">Civil & Mechanical</span>
+                <h2>Custom Structure Fabrication</h2>
+                <p>Ek solar system utna hi mazboot hota hai jitni uski buniyaad (foundation). Aam tor par log sastay iron frame laga kar hazaron dollars ke panels ko risk mein daal dete hain. Hum apne har project ke liye Galvanized Iron (GI) ya pure aluminum ke custom L2 aur L3 structures design karte hain. In elevated structures ki madad se aapki chhat (roof space) block nahi hoti aur aap usay asani se istemal kar sakte hain.</p>
+                
+                <div class="ds-feature-grid">
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-arrow-up-from-bracket"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Elevated L3 Designs</h4>
+                            <p>Oonchay structure jis ke neechay se asani se guzra ja sakta hai, taake chhat ki jagah zaya na ho.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-droplet-slash"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Rust & Corrosion Proof</h4>
+                            <p>Hot-dip galvanized coating jo structure ko zang (rust) lagne se saalon tak mahfooz rakhti hai.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-wind"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Wind Load Tested</h4>
+                            <p>Pakistan ke sakht mosam aur taiz aandhiyon (150km/h tak) ko bardasht karne ki salahiyat.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Perfect Sun Tracking Tilt</h4>
+                            <p>Engineers angle aur tilt ko specifically design karte hain taake panels ko poora saal maximum dhoop milay.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ds-actions">
+                    <a href="get_a_quote.html" class="btn btn-yellow">
+                        Get a Quote
+                    </a>
+                    <a href="plans.html" class="btn btn-outline" style="border-color: var(--color-primary-blue); color: var(--color-primary-blue);">
+                        Explore Packages
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- ==============================================================================
+     SERVICES PAGE - PART 3: Net Metering, O&M & Final CTA
+     ============================================================================== -->
+
+<!-- ========================= SERVICE 5: NET METERING & APPROVALS ========================= -->
+<section class="detailed-service-section" id="service-5">
+    <div class="container">
+        <!-- Normal Layout: Image Left, Content Right -->
+        <div class="ds-container">
+            
+            <!-- Image Block (Left) -->
+            <div class="ds-image-block">
+                <img src="media/service5.webp" alt="Net Metering and Paperwork" class="ds-main-img">
+                
+            </div>
+
+            <!-- Content Block (Right) -->
+            <div class="ds-content-block">
+                <span class="ds-count">05</span>
+                <span class="ds-tag">Legal & Processing</span>
+                <h2>WAPDA Net Metering Approvals</h2>
+                <p>Solar system lagwana aasan hai, lekin WAPDA ki paperwork aur Net Metering ka process aam aadmi ke liye kisi sar-dard se kam nahi. B Tech Solar aapko 100% hassle-free Net Metering service deta hai. Humari dedicated team aapki file bananay se le kar Green Meter lagne tak ka sara kaam khud handle karti hai, taake aap baghair kisi tension ke apni extra bijli WAPDA ko baich saken.</p>
+                
+                <div class="ds-feature-grid">
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-file-circle-check"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Feasibility & NOC</h4>
+                            <p>Load approval aur WAPDA se No Objection Certificate (NOC) hasil karne ka mukammal process.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-money-check-dollar"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Demand Notice</h4>
+                            <p>Bank mein Demand Notice jama karwane aur file processing ki saari zimadari humari hoti hai.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Green Meter Setup</h4>
+                            <p>Bi-directional meter (jo WAPDA ko di jane wali aur li jane wali bijli dono count kare) ki installation.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-face-smile-relaxed"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Zero Client Hassle</h4>
+                            <p>Aapko kisi office ke chakkar lagane ki zaroorat nahi, humara staff aapke ghar aa kar signatures leta hai.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ds-actions">
+                    <a href="get_a_quote.html" class="btn btn-yellow">
+                        Get a Quote
+                    </a>
+                    <a href="plans.html" class="btn btn-outline" style="border-color: var(--color-primary-blue); color: var(--color-primary-blue);">
+                        Explore Packages
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ========================= SERVICE 6: OPERATIONS & MAINTENANCE (O&M) ========================= -->
+<section class="detailed-service-section alt-bg" id="service-6">
+    <div class="container">
+        <!-- Reverse Layout: Image Right, Content Left -->
+        <div class="ds-container reverse">
+            
+            <!-- Image Block (Right) -->
+            <div class="ds-image-block">
+                <img src="media/service6.webp" alt="Solar Panel Maintenance and Cleaning" class="ds-main-img">
+                
+            </div>
+
+            <!-- Content Block (Left) -->
+            <div class="ds-content-block">
+                <span class="ds-count">06</span>
+                <span class="ds-tag">After-Sales Support</span>
+                <h2>Operations & Maintenance (O&M)</h2>
+                <p>Solar panels par jama hone wali dhool aur mitti unki efficiency ko 30% tak kam kar sakti hai. System lagane ke baad asil kaam uski hifazat karna hai. B Tech Solar ki specialized O&M team aapke system ki mukammal nigrani karti hai. Humari periodic cleaning aur technical diagnostics se aapka system apni maximum output deta rehta hai.</p>
+                
+                <div class="ds-feature-grid">
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-hand-sparkles"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Deep Cleaning Services</h4>
+                            <p>Panels ko damage kiye baghair specially treated water aur soft brushes se professional cleaning.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-stethoscope"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Health Diagnostics</h4>
+                            <p>Inverter logs, wiring, aur battery health ka mukammal checkup taake future faults se bacha ja sakay.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-temperature-arrow-down"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>Thermal Inspections</h4>
+                            <p>Hot spots aur internal damages ko detect karne ke liye advanced thermal imaging tools ka istemal.</p>
+                        </div>
+                    </div>
+                    <div class="ds-feature-item">
+                        <div class="ds-feature-icon"><i class="fa-solid fa-file-shield"></i></div>
+                        <div class="ds-feature-text">
+                            <h4>AMC Packages</h4>
+                            <p>Sasta aur reliable Annual Maintenance Contract (AMC) jis mein saal ki sab visits shamil hoti hain.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ds-actions">
+                    <a href="get_a_quote.html" class="btn btn-yellow">
+                        Get a Quote
+                    </a>
+                    <a href="plans.html" class="btn btn-outline" style="border-color: var(--color-primary-blue); color: var(--color-primary-blue);">
+                        Explore Packages
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ========================= FINAL SERVICES CTA SECTION ========================= -->
+<style>
+    .services-cta {
+        padding: 80px 0;
+        background: linear-gradient(135deg, var(--color-primary-blue) 0%, var(--color-light-blue) 100%);
+        text-align: center;
+        color: var(--color-white);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .services-cta::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: url('data:image/svg+xml;charset=utf-8,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.05"><path d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/></g></g></svg>');
+        z-index: 1;
+    }
+
+    .srv-cta-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .srv-cta-content h2 {
+        font-family: var(--font-heading);
+        font-size: 42px;
+        font-weight: 900;
+        margin-bottom: 20px;
+    }
+
+    .srv-cta-content p {
+        font-size: 18px;
+        color: rgba(255,255,255,0.9);
+        max-width: 650px;
+        margin: 0 auto 35px auto;
+    }
+
+    .srv-cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+        .srv-cta-content h2 { font-size: 32px; }
+        .srv-cta-buttons { flex-direction: column; }
+    }
+</style>
+
+<section class="services-cta">
+    <div class="container">
+        <div class="srv-cta-content">
+            <h2>Ready to Harness the Sun?</h2>
+            <p>Humari experts ki team aapki zarurat aur budget ke mutabiq best solution design karne ke liye tayyar hai. Aaj hi raabta karein aur free estimate hasil karein.</p>
+            
+            <div class="srv-cta-buttons">
+                <a href="get_a_quote.html" class="btn btn-yellow" style="padding: 18px 40px; font-size: 16px;">
+                    Get A Free Quote <i class="fa-solid fa-arrow-right" style="margin-left: 10px;"></i>
+                </a>
+                <a href="plans.html" class="btn btn-outline" style="padding: 18px 40px; font-size: 16px;">
+                    <i class="fa-solid fa-box-open" style="margin-right: 10px;"></i> Explore Packages
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
         
     </main>
 
