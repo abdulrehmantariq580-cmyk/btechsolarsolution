@@ -274,7 +274,290 @@
     <!-- ================================================================== -->
     
     <main>
-        <!-- Paste page specific sections here (e.g., About Section, Services Grid, etc.) -->
+        <style>
+    /* ==========================================================================
+       1. HERO SECTION
+       ========================================================================== */
+    .quote-hero {
+        position: relative;
+        width: 100%;
+        height: 350px;
+        background-color: var(--color-primary-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .quote-hero-bg {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0.2;
+        z-index: 1;
+        filter: grayscale(30%);
+    }
+
+    .quote-hero-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(135deg, rgba(28, 63, 148, 0.95) 0%, rgba(17, 17, 17, 0.8) 100%);
+        z-index: 2;
+    }
+
+    .quote-hero-content {
+        position: relative;
+        z-index: 3;
+        color: var(--color-white);
+        max-width: 800px;
+        padding: 0 20px;
+    }
+
+    .quote-hero-title {
+        font-family: var(--font-heading);
+        font-size: 50px;
+        font-weight: 900;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .quote-hero-title span { color: var(--color-sun-yellow); }
+
+    .quote-breadcrumb {
+        display: flex; align-items: center; justify-content: center; gap: 12px;
+        font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    .quote-breadcrumb a { color: var(--color-white); display: flex; align-items: center; gap: 8px; }
+    .quote-breadcrumb a:hover { color: var(--color-sun-yellow); }
+    .quote-breadcrumb i { font-size: 10px; color: rgba(255, 255, 255, 0.4); }
+
+    /* ==========================================================================
+       2. CENTERED QUOTE FORM SECTION
+       ========================================================================== */
+    .quote-form-section {
+        padding: 80px 0 120px 0;
+        background-color: #f8fafc; /* Very light cool grey */
+        display: flex;
+        justify-content: center;
+    }
+
+    .quote-form-wrapper {
+        background: var(--color-white);
+        width: 100%;
+        max-width: 900px; /* Centered max width */
+        padding: 50px 60px;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+        border-top: 6px solid var(--color-primary-blue);
+    }
+
+    .form-header {
+        margin-bottom: 40px;
+    }
+
+    .form-header h2 {
+        font-family: var(--font-heading);
+        font-size: 38px;
+        font-weight: 900;
+        color: var(--color-primary-blue);
+        margin-bottom: 10px;
+    }
+
+    .form-header p {
+        font-size: 16px;
+        color: var(--text-gray);
+        line-height: 1.6;
+    }
+
+    /* Form Grid Layout */
+    .quote-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .quote-input-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .quote-input-group.full {
+        grid-column: span 2;
+    }
+
+    .quote-input-group input, 
+    .quote-input-group select, 
+    .quote-input-group textarea {
+        width: 100%;
+        padding: 16px 20px;
+        background-color: #fcfdfe;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 15px;
+        font-family: inherit;
+        color: var(--color-dark);
+        transition: all 0.3s ease;
+    }
+
+    .quote-input-group input:focus, 
+    .quote-input-group select:focus, 
+    .quote-input-group textarea:focus {
+        outline: none;
+        background-color: var(--color-white);
+        border-color: var(--color-primary-blue);
+        box-shadow: 0 0 0 4px rgba(28, 63, 148, 0.1);
+    }
+
+    /* Customizing select appearance slightly */
+    .quote-input-group select {
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%231C3F94%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1.5rem top 50%;
+        background-size: 0.65rem auto;
+    }
+
+    .quote-input-group textarea {
+        resize: vertical;
+        min-height: 140px;
+    }
+
+    .quote-submit-btn {
+        width: 100%;
+        padding: 20px;
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--color-white);
+        background-color: #25D366; /* WhatsApp Green */
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        margin-top: 10px;
+    }
+
+    .quote-submit-btn:hover {
+        background-color: #1ebd5a;
+        transform: translateY(-2px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .quote-form-wrapper { padding: 40px 25px; }
+        .form-header h2 { font-size: 32px; }
+        .quote-grid { grid-template-columns: 1fr; gap: 20px; }
+        .quote-input-group.full { grid-column: span 1; }
+    }
+</style>
+
+
+<section class="quote-form-section">
+    <div class="container" style="display: flex; justify-content: center;">
+        
+        <div class="quote-form-wrapper">
+            <div class="form-header">
+                <h2>Send Us Message</h2>
+                <p>Niche di gayi maloomat darj karein aur humari team aapko estimate ke sath foran raabta karegi.</p>
+            </div>
+
+            <form id="getQuoteForm">
+                <div class="quote-grid">
+                    
+                    <div class="quote-input-group">
+                        <input type="text" id="qName" placeholder="Aapka Poora Naam *" required>
+                    </div>
+
+                    <div class="quote-input-group">
+                        <input type="tel" id="qPhone" placeholder="Phone Number *" required>
+                    </div>
+
+                    <div class="quote-input-group">
+                        <input type="email" id="qEmail" placeholder="Email Address *" required>
+                    </div>
+
+                    <div class="quote-input-group">
+                        <input type="text" id="qCity" placeholder="City / Area (e.g., Wah Cantt)" required>
+                    </div>
+
+                    <div class="quote-input-group">
+                        <select id="qSystem" required>
+                            <option value="" disabled selected>System Type Select Karein *</option>
+                            <option value="Hybrid System">Hybrid System</option>
+                            <option value="On-Grid System">On-Grid (Net Metering)</option>
+                            <option value="Off-Grid System">Off-Grid System</option>
+                            <option value="Not Sure">Not Sure</option>
+                        </select>
+                    </div>
+
+                    <div class="quote-input-group">
+                        <select id="qPlan" required>
+                            <option value="" disabled selected>Plan Choose Karein *</option>
+                            <option value="Basic Plan">Basic Plan</option>
+                            <option value="Standard Plan">Standard Plan (Best Seller)</option>
+                            <option value="Advance Plan">Advance Plan (Heavy Duty)</option>
+                            <option value="Not Sure">Not Sure / Need Advice</option>
+                        </select>
+                    </div>
+
+                    <div class="quote-input-group full">
+                        <textarea id="qDetails" placeholder="Mazed Tafseelaat (e.g., Mahana Bill kitna hai, AC kitne hain?)..." required></textarea>
+                    </div>
+
+                    <div class="quote-input-group full">
+                        <button type="submit" class="quote-submit-btn">
+                            Get Estimate via WhatsApp <i class="fa-brands fa-whatsapp" style="font-size: 22px;"></i>
+                        </button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.getElementById('getQuoteForm').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+
+        // Get values from inputs
+        var name = document.getElementById('qName').value;
+        var phone = document.getElementById('qPhone').value;
+        var email = document.getElementById('qEmail').value;
+        var city = document.getElementById('qCity').value;
+        var system = document.getElementById('qSystem').value;
+        var plan = document.getElementById('qPlan').value;
+        var details = document.getElementById('qDetails').value;
+
+        // Format message for WhatsApp
+        var whatsappMessage = "Hello B Tech Solar! I have submitted a Quote Request from your website. Here are my details:%0A%0A" 
+            + "*Name:* " + name + "%0A"
+            + "*Phone:* " + phone + "%0A"
+            + "*Email:* " + email + "%0A"
+            + "*City/Area:* " + city + "%0A"
+            + "*System Type:* " + system + "%0A"
+            + "*Plan Chosen:* " + plan + "%0A%0A"
+            + "*More Details / Load Info:*%0A" + details + "%0A%0A"
+            + "Please provide me with an estimate.";
+
+        // Target WhatsApp Number
+        var targetNumber = "923405010197"; // Number from the flyer
+
+        // Generate URL
+        var whatsappURL = "https://wa.me/" + targetNumber + "?text=" + whatsappMessage;
+
+        // Open in new tab
+        window.open(whatsappURL, '_blank');
+    });
+</script>
         
     </main>
 

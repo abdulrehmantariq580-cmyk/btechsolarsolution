@@ -274,7 +274,360 @@
     <!-- ================================================================== -->
     
     <main>
-        <!-- Paste page specific sections here (e.g., About Section, Services Grid, etc.) -->
+       <style>
+    /* ==========================================================================
+       1. CONTACT HERO SECTION
+       ========================================================================== */
+    .contact-hero {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        background-color: var(--color-primary-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        overflow: hidden;
+    }
+
+    .contact-hero-bg {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0.2;
+        z-index: 1;
+        filter: grayscale(30%);
+    }
+
+    .contact-hero-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(135deg, rgba(28, 63, 148, 0.95) 0%, rgba(17, 17, 17, 0.8) 100%);
+        z-index: 2;
+    }
+
+    .contact-hero-content {
+        position: relative;
+        z-index: 3;
+        color: var(--color-white);
+        max-width: 800px;
+        padding: 0 20px;
+    }
+
+    .contact-hero-title {
+        font-family: var(--font-heading);
+        font-size: 55px;
+        font-weight: 900;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .contact-hero-title span { color: var(--color-sun-yellow); }
+
+    .contact-breadcrumb {
+        display: flex; align-items: center; justify-content: center; gap: 12px;
+        font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    .contact-breadcrumb a { color: var(--color-white); display: flex; align-items: center; gap: 8px; }
+    .contact-breadcrumb a:hover { color: var(--color-sun-yellow); }
+    .contact-breadcrumb i { font-size: 10px; color: rgba(255, 255, 255, 0.4); }
+
+    /* ==========================================================================
+       2. EQUAL SPLIT LAYOUT (LEFT 50% : RIGHT 50%)
+       ========================================================================== */
+    .contact-split-section {
+        padding: 100px 0;
+        background-color: #f8fafc;
+    }
+
+    .split-layout-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Both sides exactly equal */
+        gap: 40px;
+        align-items: stretch; /* Ensures both columns are of equal height */
+    }
+
+    /* --- Left Panel --- */
+    .left-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    /* 3 Horizontal Boxes adjusted for 50% width */
+    .info-boxes-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .mini-info-box {
+        background: var(--color-white);
+        padding: 20px 15px; /* Slightly reduced padding */
+        border-radius: 12px;
+        box-shadow: var(--shadow-sm);
+        text-align: center;
+        border-bottom: 4px solid var(--color-primary-blue);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .mini-info-box:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-md);
+        border-bottom-color: var(--color-sun-yellow);
+    }
+
+    .mini-info-box .box-icon {
+        width: 45px; height: 45px;
+        margin: 0 auto 12px auto;
+        background: rgba(28, 63, 148, 0.05);
+        color: var(--color-primary-blue);
+        border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 18px;
+    }
+
+    .mini-info-box h5 {
+        font-family: var(--font-heading);
+        font-size: 15px; font-weight: 800; color: var(--color-dark); margin-bottom: 8px;
+    }
+
+    .mini-info-box p {
+        font-size: 13px; color: var(--text-gray); line-height: 1.5; margin: 0;
+    }
+    
+    .mini-info-box a {
+        color: var(--color-primary-blue); font-weight: 600; font-size: 13px; display: block; margin-top: 5px;
+    }
+
+    /* WhatsApp Form Box */
+    .whatsapp-form-wrapper {
+        background: var(--color-white);
+        padding: 35px 30px;
+        border-radius: 15px;
+        box-shadow: var(--shadow-md);
+        border: 1px solid rgba(0,0,0,0.03);
+        flex-grow: 1; /* Makes form stretch to fill remaining space */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .wa-header {
+        margin-bottom: 25px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .wa-icon-large {
+        font-size: 32px;
+        color: #25D366;
+    }
+
+    .wa-header h3 {
+        font-family: var(--font-heading);
+        font-size: 26px; font-weight: 900; color: var(--color-dark); margin: 0;
+    }
+
+    .wa-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        flex-grow: 1;
+    }
+
+    .wa-input-group { display: flex; flex-direction: column; }
+    .wa-input-group.full { grid-column: span 2; }
+
+    .wa-input-group label {
+        font-size: 13px; font-weight: 700; color: var(--color-dark); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    .wa-input-group input, .wa-input-group select, .wa-input-group textarea {
+        width: 100%; padding: 14px 15px; background-color: #f1f5f9; border: 1px solid #e2e8f0;
+        border-radius: 8px; font-size: 14px; font-family: inherit; color: var(--color-dark); transition: all 0.3s ease;
+    }
+
+    .wa-input-group input:focus, .wa-input-group select:focus, .wa-input-group textarea:focus {
+        outline: none; background-color: var(--color-white); border-color: #25D366; box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+    }
+
+    .wa-input-group textarea { resize: vertical; min-height: 120px; flex-grow: 1; }
+
+    .wa-submit-btn {
+        width: 100%; padding: 16px; font-size: 15px; font-weight: 800; color: var(--color-white);
+        background-color: #25D366; border: none; border-radius: 8px; cursor: pointer;
+        display: flex; justify-content: center; align-items: center; gap: 10px; transition: background-color 0.3s ease;
+    }
+
+    .wa-submit-btn:hover { background-color: #1ebd5a; }
+
+    /* --- Right Panel: Map --- */
+    .right-panel {
+        width: 100%;
+        height: 100%; /* Stretches exactly to the height of the left panel */
+        background: #e2e8f0;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow-md);
+        border: 6px solid var(--color-white);
+        position: relative;
+    }
+
+    .contact-map-iframe {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%; border: none;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE DESIGN
+       ========================================================================== */
+    @media (max-width: 1200px) {
+        .info-boxes-row { grid-template-columns: 1fr; } /* Stack boxes on mid-screens to save space */
+    }
+
+    @media (max-width: 992px) {
+        .split-layout-grid { grid-template-columns: 1fr; } /* Stack Map below Left Panel on tablets */
+        .right-panel { min-height: 450px; }
+        .info-boxes-row { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+        .info-boxes-row { grid-template-columns: 1fr; gap: 15px; } /* Stack 3 boxes vertically on mobile */
+        .wa-form-grid { grid-template-columns: 1fr; }
+        .wa-input-group.full { grid-column: span 1; }
+        .whatsapp-form-wrapper { padding: 25px 20px; }
+    }
+</style>
+
+<section class="contact-hero">
+    <img src="https://images.unsplash.com/photo-1596423735880-5f2a689b903e?q=80&w=2070&auto=format&fit=crop" alt="Contact Us Banner" class="contact-hero-bg">
+    <div class="contact-hero-overlay"></div>
+    
+    <div class="contact-hero-content">
+        <h1 class="contact-hero-title">Contact <span>Us</span></h1>
+        <div class="contact-breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <i class="fa-solid fa-chevron-right"></i>
+            <span class="current-page">Reach Out</span>
+        </div>
+    </div>
+</section>
+
+<section class="contact-split-section">
+    <div class="container">
+        
+        <div class="split-layout-grid">
+            
+            <div class="left-panel">
+                
+                <div class="info-boxes-row">
+                    <div class="mini-info-box">
+                        <div class="box-icon"><i class="fa-solid fa-headset"></i></div>
+                        <h5>Contact Details</h5>
+                        <p>Phone: 0322-2860434</p>
+                        <p>Whatsapp: 0340-5010197</p>
+                    </div>
+
+                    <div class="mini-info-box">
+                        <div class="box-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <h5>Our Address</h5>
+                        <p>G 10/4 Street 37,<br>Shop No 2</p>
+                       
+                    </div>
+
+                    <div class="mini-info-box">
+                        <div class="box-icon"><i class="fa-solid fa-clock"></i></div>
+                        <h5>Working Hours</h5>
+                        <p>Monday - Sunday</p>
+                        <p>09:00 AM - 06:00 PM</p>
+                    </div>
+                </div>
+
+                <div class="whatsapp-form-wrapper">
+                    <div class="wa-header">
+                        <i class="fa-brands fa-whatsapp wa-icon-large"></i>
+                        <h3>WhatsApp Inquiry Form</h3>
+                    </div>
+                    <p style="color: var(--text-gray); margin-bottom: 20px; font-size: 13.5px;">
+                        Fill out this quick form. It will automatically generate a WhatsApp message to our engineering team for a fast reply.
+                    </p>
+
+                    <form id="whatsappForm" style="display: flex; flex-direction: column; flex-grow: 1;">
+                        <div class="wa-form-grid">
+                            
+                            <div class="wa-input-group">
+                                <label for="waName">Your Name</label>
+                                <input type="text" id="waName" placeholder="E.g. Ali Ahmed" required>
+                            </div>
+                            
+                            <div class="wa-input-group">
+                                <label for="waCity">City / Location</label>
+                                <input type="text" id="waCity" placeholder="E.g. Wah Cantt" required>
+                            </div>
+
+                            <div class="wa-input-group full">
+                                <label for="waSystem">System Required</label>
+                                <select id="waSystem" required>
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="Hybrid Solar System">Hybrid Solar System</option>
+                                    <option value="On-Grid Net Metering">On-Grid (Net Metering)</option>
+                                    <option value="Off-Grid Solar System">Off-Grid System</option>
+                                    <option value="Other Inquiry">Other inquiry</option>
+                                </select>
+                            </div>
+
+                            <div class="wa-input-group full" style="flex-grow: 1;">
+                                <label for="waMessage">Details / Monthly Bill / Load</label>
+                                <textarea id="waMessage" placeholder="E.g. My monthly bill is around 25,000 RS. I want to run 2 Inverter ACs..." required></textarea>
+                            </div>
+
+                            <div class="wa-input-group full" style="margin-top: 5px;">
+                                <button type="submit" class="wa-submit-btn">
+                                    Send via WhatsApp <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="right-panel">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9478.512790199506!2d73.01235267800429!3d33.672376935209684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfbfff8a0eb2fd%3A0xa53d49db580842d2!2sN-tech%20Power%20Solutions!5e0!3m2!1sen!2s!4v1778575965869!5m2!1sen!2s" width="600" height="1000" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+
+        var name = document.getElementById('waName').value;
+        var city = document.getElementById('waCity').value;
+        var system = document.getElementById('waSystem').value;
+        var message = document.getElementById('waMessage').value;
+
+        var whatsappMessage = "Hello B Tech Solar! I am interested in a quotation. Here are my details:%0A%0A" 
+            + "*Name:* " + name + "%0A"
+            + "*City:* " + city + "%0A"
+            + "*Interested In:* " + system + "%0A"
+            + "*Details / Load:* " + message + "%0A%0A"
+            + "Please guide me further.";
+
+        var targetNumber = "923405010197"; // Number from flyer
+
+        var whatsappURL = "https://wa.me/" + targetNumber + "?text=" + whatsappMessage;
+
+        window.open(whatsappURL, '_blank');
+    });
+</script>
         
     </main>
 
