@@ -227,47 +227,7 @@
             </nav>
         </div>
     </header>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            const preloader = document.getElementById('preloader');
-            window.addEventListener('load', () => {
-                setTimeout(() => {
-                    preloader.style.opacity = '0';
-                    preloader.style.visibility = 'hidden';
-                }, 500);
-            });
 
-            const header = document.getElementById('header');
-            const topBar = document.querySelector('.top-bar');
-            
-            window.addEventListener('scroll', () => {
-                let triggerPoint = topBar ? topBar.offsetHeight : 10;
-                
-                if (window.scrollY > triggerPoint) {
-                    header.classList.add('sticky');
-                } else {
-                    header.classList.remove('sticky');
-                }
-            });
-
-            const menuToggle = document.getElementById('mobile-menu');
-            const navMenu = document.getElementById('nav-menu');
-            const navLinks = document.querySelectorAll('.nav-link');
-
-            menuToggle.addEventListener('click', () => {
-                menuToggle.classList.toggle('active');
-                navMenu.classList.toggle('active');
-            });
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    menuToggle.classList.remove('active');
-                    navMenu.classList.remove('active');
-                });
-            });
-        });
-    </script>
 
     <!-- ================================================================== -->
     <!-- MAIN CONTENT AREA START -->
