@@ -334,6 +334,101 @@ header.sticky .brand-logo .logo-img {
 
         </div>
     </header>
+    <style>
+    .thin-sale-banner {
+        background-color: #ffd700; /* Vibrant Yellow */
+        color: #111;
+        padding: 12px 0; /* Thori si height barhai hai baray text ke liye */
+        overflow: hidden;
+        white-space: nowrap; /* CRUCIAL: Ye text ko next line mein jane se rokega */
+        position: relative;
+        z-index: 99;
+        display: flex;
+        align-items: center;
+        border-bottom: 2px solid #1C3F94; /* Blue border line */
+    }
+
+    .thin-marquee-container {
+        display: flex;
+        width: max-content;
+        animation: marqueeSlide 20s linear infinite; /* Smooth speed */
+        /* Hover pe rukne wala code remove kar diya gaya hai */
+    }
+
+    .thin-marquee-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-right: 60px; /* Do items ke darmian ka fasla */
+        font-family: var(--font-heading, sans-serif);
+        font-size: 18px; /* TEXT BARA KAR DIYA HAI */
+        font-weight: 700;
+        text-transform: uppercase;
+        white-space: nowrap; /* Kisi bhi haal mein line break nahi hogi */
+    }
+
+    /* Animated Sale Sticker */
+    .sale-badge {
+        background-color: #e53e3e; /* Flashy Red */
+        color: #fff;
+        padding: 5px 15px;
+        border-radius: 25px;
+        font-size: 14px;
+        font-weight: 900;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        box-shadow: 0 4px 10px rgba(229, 62, 62, 0.4);
+    }
+
+    /* Highlight Key Words */
+    .highlight-text {
+        color: #1C3F94; /* B Tech Solar Dark Blue */
+        font-weight: 900;
+        font-size: 20px; /* Baki text se thora aur bara */
+    }
+
+    /* Animation Keyframes */
+    @keyframes marqueeSlide {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); } /* Perfect seamless loop */
+    }
+
+    /* Mobile ke liye size thora adjust kiya taake screen se bahar na lage */
+    @media (max-width: 768px) {
+        .thin-sale-banner { padding: 8px 0; }
+        .thin-marquee-item { font-size: 15px; padding-right: 40px; }
+        .highlight-text { font-size: 16px; }
+        .sale-badge { font-size: 12px; padding: 4px 12px; }
+    }
+</style>
+
+<div class="thin-sale-banner">
+    <div class="thin-marquee-container">
+        
+        <div class="thin-marquee-item">
+            <span class="sale-badge"><i class="fa-solid fa-tag"></i> FLASH SALE</span>
+            <span>Solar Installation starting from only <span class="highlight-text">430K</span> with <span class="highlight-text">Lithium Batteries</span></span>
+        </div>
+        
+        <div class="thin-marquee-item">
+            <span class="sale-badge"><i class="fa-solid fa-bolt"></i> HOT DEAL</span>
+            <span>Solar Installation starting from only <span class="highlight-text">430K</span> with <span class="highlight-text">Lithium Batteries</span></span>
+        </div>
+
+        <div class="thin-marquee-item">
+            <span class="sale-badge"><i class="fa-solid fa-tag"></i> FLASH SALE</span>
+            <span>Solar Installation starting from only <span class="highlight-text">430K</span> with <span class="highlight-text">Lithium Batteries</span></span>
+        </div>
+        
+        <div class="thin-marquee-item">
+            <span class="sale-badge"><i class="fa-solid fa-bolt"></i> HOT DEAL</span>
+            <span>Solar Installation starting from only <span class="highlight-text">430K</span> with <span class="highlight-text">Lithium Batteries</span></span>
+        </div>
+
+    </div>
+</div>
 
     <section class="hero-static" id="home">
         
